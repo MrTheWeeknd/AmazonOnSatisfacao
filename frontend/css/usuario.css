@@ -1,6 +1,6 @@
 @import url(js/ui.js);
 
-.titulo{
+  .titulo{
     color: var(--cor-primaria);
     text-align: center;
   }
