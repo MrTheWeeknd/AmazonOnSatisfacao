@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Admin - Satisfação</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .titulo { color: #27374D; margin-bottom: 20px; }
+    canvas { max-width: 100%; }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+  <h1 class="titulo">Sistema de Satisfação - Admin</h1>
+  <button class="btn btn-dark" onclick="screenAdminLogin()">Entrar como Administrador</button>
+</div>
+
+<script>
+  function showScreen(html) {
+    document.body.innerHTML = html;
+  }
+
+  function screenAdminLogin() {
+    showScreen(`
+      <div class="container py-5">
+        <h2 class="titulo">Login do Administrador</h2>
+        <input type="password" id="adminPassword" class="form-control mb-3" placeholder="Senha">
+        <button class="btn btn-primary" onclick="loginAdmin()">Entrar</button>
+      </div>
+    `);
+  }
+
+  function loginAdmin() {
+    const senha = document.getElementById('adminPassword').value;
+    if (senha === 'admin123') {
+      screenAdminDashboard();
+    } else {
+      alert('Senha incorreta');
+    }
+  }
+
+  function screenAdminDashboard() {
+    showScreen(`
+      <div class="d-flex">
+        <div class="p-3 bg-dark text-white" style="width: 250px; min-height: 100vh;">
+          <h4>Admin</h4>
+          <hr>
+          <button class="btn btn-outline-light w-100 mb-2" onclick="renderSatisfaction()">Satisfação</button>
+          <button class="btn btn-outline-light w-100" onclick="renderMealChoices()">Refeições</button>
+        </div>
+        <div class="p-4 flex-grow-1" id="adminContent"></div>
+      </div>
+    `);
+    renderSatisfaction();
+  }
+
+  function getStoredData() {
+    return JSON.parse(localStorage.getItem('responses') || '[]');
+  }
+
+  function renderSatisfaction() {
+    const data = getStoredData();
+    const setores = [...new Set(data.map(d => d.setor))];
+
+    let html = `<h2 class="titulo">Satisfação dos Usuários</h2>
+      <label for="setorFiltro">Filtrar por setor:</label>
+      <select id="setorFiltro" class="form-select w-auto d-inline-block mb-3 ms-2" onchange="updateSatisfactionChart()">
+        <option value="todos">Todos</option>
+        ${setores.map(s => `<option value="${s}">${s}</option>`).join('')}
+      </select>
+      <canvas id="satisfactionChart" height="100"></canvas>
+      <h4 class="mt-4">Comentários dos Usuários</h4>
+      <ul class="list-group mt-2" id="commentList"></ul>`;
+
+    document.getElementById('adminContent').innerHTML = html;
+    updateSatisfactionChart();
+  }
+
+  function updateSatisfactionChart() {
+    const data = getStoredData();
+    const setorSelecionado = document.getElementById('setorFiltro').value;
+
+    const filtrados = setorSelecionado === 'todos' ? data : data.filter(d => d.setor === setorSelecionado);
+    const contagem = {};
+    filtrados.forEach(r => {
+      if (!r.nivel) return;
+      contagem[r.nivel] = (contagem[r.nivel] || 0) + 1;
+    });
+
+    const ctx = document.getElementById('satisfactionChart').getContext('2d');
+    if (window.satisfacaoChart) window.satisfacaoChart.destroy();
+    window.satisfacaoChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(contagem),
+        datasets: [{
+          label: 'Nível de Satisfação',
+          data: Object.values(contagem),
+          backgroundColor: ['#27374D', '#526D82', '#9DB2BF', '#DDE6ED']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: `Satisfação - ${setorSelecionado === 'todos' ? 'Todos os Setores' : setorSelecionado}`
+          }
+        }
+      }
+    });
+
+    const commentList = document.getElementById('commentList');
+    commentList.innerHTML = '';
+    filtrados.forEach(r => {
+      if (r.observacao?.trim()) {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.textContent = `[${r.setor}] ${r.observacao.trim()}`;
+        commentList.appendChild(li);
+      }
+    });
+  }
+
+  function renderMealChoices() {
+    const data = getStoredData();
+    const categorias = ['proteina', 'carboidrato', 'salada', 'sobremesa'];
+
+    let html = `<h2 class="titulo">Preferências de Refeições</h2>`;
+    categorias.forEach(cat => {
+      const contagem = {};
+      data.forEach(r => {
+        const item = r?.escolhaCardapio?.[cat];
+        if (item) contagem[item] = (contagem[item] || 0) + 1;
+      });
+
+      html += `<div class="mb-5">
+        <h5>${cat.charAt(0).toUpperCase() + cat.slice(1)}</h5>
+        <canvas id="chart_${cat}" height="10"></canvas>
+      </div>`;
+
+      setTimeout(() => {
+        const ctx = document.getElementById(`chart_${cat}`).getContext('2d');
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(contagem),
+            datasets: [{
+              data: Object.values(contagem),
+              backgroundColor: ['#27374D', '#526D82', '#9DB2BF', '#DDE6ED', '#B2B2B2'],
+            }]
+          },
+          options: {
+            plugins: {
+              legend: { position: 'right' },
+              tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}` } },
+            }
+          }
+        });
+      }, 50);
+    });
+
+    document.getElementById('adminContent').innerHTML = html;
+  }
+</script>
+</body>
+</html>

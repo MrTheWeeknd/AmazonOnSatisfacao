@@ -1,0 +1,23 @@
+@import url(usuario.css);
+@import url(administrador.css);
+
+:root {
+    --cor-primaria: #27374D;
+    --cor-secundaria: #526D82;
+    --cor-accent: #9DB2BF;
+    --cor-bg: #DDE6ED;
+  }
+  body {
+    background-color: var(--cor-bg);
+    color: var(--cor-primaria);
+  }
+  .btn-primary {
+    background-color: var(--cor-primaria);
+    border: none;
+  }
+  .btn-secondary {
+    background-color: var(--cor-secundaria);
+    border: none;
+  }
+
+  
