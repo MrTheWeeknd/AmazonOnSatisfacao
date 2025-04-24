@@ -1,57 +1,78 @@
 function logoutAdmin() {
-    screenAdminLogin(); // volta para tela de login sem recarregar a página
+    screenAdminLogin(); 
 }
 
-
-function exportData() {
-  const formato = prompt("Escolha o formato de exportação: CSV ou PDF").toLowerCase();
-  const data = getStoredData();
-
-  if (!data.length) {
-    alert("Não há dados para exportar.");
-    return;
+function exportData(formato) {
+    formato = formato.toLowerCase();
+    const data = getStoredData();
+  
+    if (!data.length) {
+      alert("Não há dados para exportar.");
+      return;
+    }
+  
+    if (formato === 'csv') {
+      const header = Object.keys(data[0]).join(',');
+      const rows = data.map(obj =>
+        Object.values(obj)
+              .map(v => JSON.stringify(v))
+              .join(',')
+      );
+      const csv = [header, ...rows].join('\n');
+  
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'respostas.csv';
+      link.click();
+    }
+  
+    else if (formato === 'pdf') {
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <html>
+          <head>
+            <title>Relatório de Respostas</title>
+            <style>
+              table { border-collapse: collapse; width: 100%; }
+              th, td { border: 1px solid #333; padding: 4px; text-align: left; }
+            </style>
+          </head>
+          <body>
+            <h1>Relatório de Respostas</h1>
+            <table>
+              <thead>
+                <tr>
+                  ${Object.keys(data[0]).map(k => `<th>${k}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${data.map(row =>
+                  `<tr>${
+                    Object.values(row)
+                          .map(cell => `<td>${cell}</td>`)
+                          .join('')
+                  }</tr>`
+                ).join('')}
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `);
+      win.document.close();
+      win.print();
+    }
+  
+    else {
+      alert("Formato inválido. Use CSV ou PDF.");
+    }
   }
-
-  if (formato === 'csv') {
-    const csv = [Object.keys(data[0]).join(',')]
-      .concat(data.map(obj => Object.values(obj).map(v => JSON.stringify(v)).join(',')))
-      .join('\n');
-
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'respostas.csv';
-    link.click();
-  }
-
-  else if (formato === 'pdf') {
-    const win = window.open('', '_blank');
-    win.document.write(`
-      <html><head><title>Exportar PDF</title></head><body>
-      <h1>Relatório de Respostas</h1>
-      <table border="1" cellspacing="0" cellpadding="5">
-        <thead><tr>${Object.keys(data[0]).map(k => `<th>${k}</th>`).join('')}</tr></thead>
-        <tbody>
-          ${data.map(row => `<tr>${Object.values(row).map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
-        </tbody>
-      </table>
-      </body></html>
-    `);
-    win.document.close();
-    win.print();
-  }
-
-  else {
-    alert("Formato inválido. Digite CSV ou PDF.");
-  }
-}
-
-
+  
 function screenAdminDashboard() {
     showScreen(`
-      <div class="d-flex">
-        <div class="p-3 bg-dark text-white" style="width: 250px; min-height: 100vh;">
-          <h4>Admin</h4>
+      <div class="d-flex administracao__menu">
+        <div class="administracao__menu__opcoes">
+          <h4>Administração</h4>
           <hr>
           <button class="btn btn-outline-light w-100 mb-2" onclick="renderSatisfaction()">Satisfação</button>
           <button class="btn btn-outline-light w-100 mb-2" onclick="renderMealChoices()">Refeições</button>
@@ -61,14 +82,14 @@ function screenAdminDashboard() {
               Exportar Dados
             </button>
             <ul class="dropdown-menu w-100">
-              <li><a class="dropdown-item" href="#" onclick="exportData('csv')">Exportar como CSV</a></li>
-              <li><a class="dropdown-item" href="#" onclick="exportData('pdf')">Exportar como PDF</a></li>
+              <li><a class="dropdown-item administracao__menu__opcoes__botao_exportar" href="#" onclick="exportData('csv')">Exportar como CSV</a></li>
+              <li><a class="dropdown-item administracao__menu_opcoes__botao_exportar" href="#" onclick="exportData('pdf')">Exportar como PDF</a></li>
             </ul>
           </div>
   
           <button class="btn btn-outline-light w-100 mt-2" onclick="logoutAdmin()">Sair</button>
         </div>
-        <div class="p-4 flex-grow-1" id="adminContent"></div>
+        <div class="p-4 flex-grow-1" id="adminContent" class="administracao__grafico__satisfacao"></div>
       </div>
     `);
     renderSatisfaction();

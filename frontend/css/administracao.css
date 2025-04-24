@@ -1,26 +1,26 @@
 @import url(administracaoLogin.css);
 @import url(administracaoSatisfacao.css);
 @import url(administracaoMenu.css);
+@import url(administracaoRefeicao.js);
+@import url(administracaoSatisfacao.js);
 
 :root {
-    --cor-primaria: #27374D;
-    --cor-secundaria: #526D82;
-    --cor-acento: #9DB2BF;
-    --cor-fundo: #DDE6ED;
+    --cor-primaria: #000000;
+    --cor-secundaria: #EFEEEA;
+    --cor-acento: #FE7743;
+    --cor-fundo: #273F4F;
     --fonte-primaria: 'Poppins';
   }
 
   body {
-    background-image: url('../img/backgrounddegrade.png');
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-color: var(--cor-fundo);
     color: var(--cor-primaria);
     margin: 50% auto;
     font-family: var(--fonte-primaria);
   }
 
   canvas {
-    max-width: 80%;
+    max-width: 100%;
     height: auto !important;
   }
 

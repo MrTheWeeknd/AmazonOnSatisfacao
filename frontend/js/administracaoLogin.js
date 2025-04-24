@@ -9,6 +9,7 @@ function showScreen(html) {
         <input type="email" id="adminEmail" class="form-control mb-3 login__senha" placeholder="Email">
         <input type="password" id="adminPassword" class="form-control mb-3 login__senha" placeholder="Senha">
         <button class="btn btn-primary login__botao" onclick="loginAdmin()">Entrar</button>
+        <img src="img/parceiros.svg" alt="Logo" class="login__parceiros">
       </div>
     `);
   }
@@ -18,7 +19,18 @@ function showScreen(html) {
     if (senha === 'admin123') {
       screenAdminDashboard();
     } else {
-      alert('Senha incorreta');
+      showScreen(`
+        <div class="container py-5">
+          <img src="img/usuario-do-circulo.png" alt="Logo" class="login__icone mb-4">
+          <input type="email" id="adminEmail" class="form-control mb-3 login__senha" placeholder="Email">
+          <input type="password" id="adminPassword" class="form-control mb-3 login__senha" placeholder="Senha">
+          <div class="alert alert-danger mt-3 login__alerta__senha" role="alert">
+            Senha incorreta. Tente novamente.
+          </div>
+          <button class="btn btn-primary login__botao" onclick="loginAdmin()">Entrar</button>
+          <img src="img/parceiros.svg" alt="Logo" class="login__parceiros">
+        </div>
+      `);
     }
   }
 
