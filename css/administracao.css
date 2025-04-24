@@ -1,8 +1,7 @@
 @import url(administracaoLogin.css);
-@import url(administracaoSatisfacao.css);
 @import url(administracaoMenu.css);
-@import url(administracaoRefeicao.js);
-@import url(administracaoSatisfacao.js);
+@import url(administracaoRefeicao.css);
+@import url(administracaoSatisfacao.css);
 
 :root {
     --cor-primaria: #000000;
@@ -19,8 +18,4 @@
     font-family: var(--fonte-primaria);
   }
 
-  canvas {
-    max-width: 100%;
-    height: auto !important;
-  }
 

@@ -72,7 +72,7 @@ function screenAdminDashboard() {
     showScreen(`
       <div class="d-flex administracao__menu">
         <div class="administracao__menu__opcoes">
-          <h4>Administração</h4>
+          <h4 class="administracao__menu__titulo">Menu - Administração</h4>
           <hr>
           <button class="btn btn-outline-light w-100 mb-2" onclick="renderSatisfaction()">Satisfação</button>
           <button class="btn btn-outline-light w-100 mb-2" onclick="renderMealChoices()">Refeições</button>

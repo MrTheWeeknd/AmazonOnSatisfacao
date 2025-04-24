@@ -6,15 +6,16 @@
     const data = getStoredData();
     const setores = [...new Set(data.map(d => d.setor))];
 
-    let html = `<h2 class="satisfacao__titulo">Satisfação dos Usuários</h2>
-      <label for="setorFiltro">Filtrar por setor:</label>
+    let html = `<h2 class="administracao__satisfacao__titulo">Satisfação dos Usuários</h2>
+      <label for="setorFiltro" class="administracao__satisfacao__texto">Filtrar por setor:</label>
       <select id="setorFiltro" class="form-select w-auto d-inline-block mb-3 ms-2" onchange="updateSatisfactionChart()">
         <option value="todos">Todos</option>
         ${setores.map(s => `<option value="${s}">${s}</option>`).join('')}
       </select>
-      <canvas id="satisfactionChart" height="100"></canvas>
-      <h4 class="mt-4">Comentários dos Usuários</h4>
-      <ul class="list-group mt-2" id="commentList"></ul>`;
+      <canvas id="satisfactionChart" class = "administracao__satisfacao__canva" ></canvas>
+      <h4 class="administracao__satisfacao__texto">Comentários dos Usuários</h4>
+      <ul class="list-group administracao__satisfacao__comentarios" id="commentList"></ul>
+      <img src="img/parceiros2.svg" alt="Parceiros" class="administracao__satisfacao__imagem">`;
 
     document.getElementById('adminContent').innerHTML = html;
     updateSatisfactionChart();
@@ -40,7 +41,7 @@
         datasets: [{
           label: 'Nível de Satisfação',
           data: Object.values(contagem),
-          backgroundColor: ['#27374D', '#526D82', '#9DB2BF', '#DDE6ED']
+          backgroundColor: ['#C96868', '#FADFA1', '#FFF4EA', '#7EACB5', '#4B8DAA'],
         }]
       },
       options: {

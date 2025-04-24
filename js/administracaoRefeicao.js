@@ -12,7 +12,7 @@ function renderMealChoices() {
 
     html += `<div class="mb-5">
       <h5>${cat.charAt(0).toUpperCase() + cat.slice(1)}</h5>
-      <canvas id="chart_${cat}" height="10"></canvas>
+      <canvas id="chart_${cat}" class="administracao__refeicao__canva"></canvas>
     </div>`;
 
     setTimeout(() => {
@@ -23,7 +23,7 @@ function renderMealChoices() {
           labels: Object.keys(contagem),
           datasets: [{
             data: Object.values(contagem),
-            backgroundColor: ['#27374D', '#526D82', '#9DB2BF', '#DDE6ED', '#B2B2B2'],
+            backgroundColor: ['#C4E1F6', '#FEEE91', '#FFBD73', '#FF9D3D', '#4B8DAA'],
           }]
         },
         options: {
