@@ -1,0 +1,59 @@
+body{
+  scroll-behavior: auto;
+}
+
+.container.py-5{
+    margin: 40% auto;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--fonte-primaria);
+  }
+
+.login__titulo {
+    color: var(--cor-secundaria);
+    margin: 20% auto 4% auto;
+    font-size: 4rem;
+    font-weight: 700;
+  }
+
+  .login__botao{
+    width: 100%;
+    height: 200%;
+    font-size: 2rem;
+    background-color: var(--cor-primaria);
+    color: white;
+    border-radius: 40px ;
+    border-color: var(--cor-primaria);
+    padding: 12px 1px;
+  }
+
+  .login__senha{
+    width: 100%;
+    height: 200%;
+    font-size: 2.5rem;
+    border-radius: 40px;
+    padding-left: 4%;
+    font-family: var(--fonte-primaria);
+  }
+
+  .login__icone, .login__parceiros{
+    width: 40%;
+    height: auto;
+    margin: 0% auto;
+    display: block;
+  }
+
+  .login__parceiros{
+    width: 100%;
+  }
+
+  .login__alerta__senha{
+    padding: 2%;
+    font-family: var(--fonte-primaria);
+    font-size: 2rem;
+    background-color: var(--cor-fundo);
+    border: 0px;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 27, 27);
+  }

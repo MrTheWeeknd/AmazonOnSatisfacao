@@ -1,0 +1,11 @@
+@import url(js/ui.js);
+
+  .titulo{
+    color: var(--cor-primaria);
+    text-align: center;
+  }
+
+  .subtitulo{
+    color: var(--cor-primaria);
+    text-align: center;
+  }
