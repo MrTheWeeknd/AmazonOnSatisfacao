@@ -1,0 +1,10 @@
+  .usuario__botao__setor{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 7% auto;
+    font-size: 25px;
+    padding: 2% 10%;
+  }

@@ -2,13 +2,14 @@
 @import url(administracao.css);
 
 :root {
-    --cor-primaria: #27374D;
-    --cor-secundaria: #526D82;
-    --cor-accent: #9DB2BF;
-    --cor-bg: #DDE6ED;
-  }
+  --cor-primaria: #000000;
+  --cor-secundaria: #EFEEEA;
+  --cor-acento: #FE7743;
+  --cor-fundo: #273F4F;
+  --fonte-primaria: 'Poppins';
+}
   body {
-    background-color: var(--cor-bg);
+    background-color: var(--cor-fundo);
     color: var(--cor-primaria);
   }
   .btn-primary {

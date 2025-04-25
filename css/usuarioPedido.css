@@ -1,0 +1,26 @@
+.botao__usuario__escolhaOpcaoRefeicao{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 4% 2%;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.usuario__img__editar{
+    width: 30%;
+
+}
+
+.usuario__pedido__lista{
+    display: flex;
+    padding: 3%; 
+}
+
+.btn-link{
+    display: flex;
+    padding: 0%;
+    width: 20%;
+    justify-content: center;
+    align-items: center;
+}
